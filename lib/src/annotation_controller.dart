@@ -11,10 +11,11 @@ import 'package:path_provider/path_provider.dart';
 
 /// Annotation Canvas Controller
 class AnnotationController extends ChangeNotifier {
+  /// Base image file
   File? imageFile;
 
-  /// `flutter_drawing_board` package controller
-  final drawingController = DrawingController();
+  /// `flutter_drawing_board` controller
+  final DrawingController drawingController = DrawingController();
 
   /// List of rectangle vertices offset
   List<List<Offset>> offsetLists = [];
