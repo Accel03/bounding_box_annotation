@@ -10,33 +10,20 @@ class AnnotationDetails {
   final String label;
   final File imageFile;
 
-  AnnotationDetails({
-    required this.p1,
-    required this.p2,
-    required this.p3,
-    required this.p4,
-    required this.label,
-    required this.imageFile
-  });
+  AnnotationDetails(
+      {required this.p1,
+      required this.p2,
+      required this.p3,
+      required this.p4,
+      required this.label,
+      required this.imageFile});
 
   Map<String, dynamic> toJson() {
-    return <String, dynamic> {
-      "p1": {
-        "dx": p1.dx,
-        "dy": p2.dy
-      },
-      "p2": {
-        "dx": p2.dx,
-        "dy": p2.dy
-      },
-      "p3": {
-        "dx": p3.dx,
-        "dy": p3.dy
-      },
-      "p4": {
-        "dx": p4.dx,
-        "dy": p4.dy
-      },
+    return <String, dynamic>{
+      "p1": {"dx": p1.dx, "dy": p2.dy},
+      "p2": {"dx": p2.dx, "dy": p2.dy},
+      "p3": {"dx": p3.dx, "dy": p3.dy},
+      "p4": {"dx": p4.dx, "dy": p4.dy},
       "label": label
     };
   }
