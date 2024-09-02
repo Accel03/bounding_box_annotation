@@ -9,14 +9,20 @@ import 'package:flutter_drawing_board/flutter_drawing_board.dart';
 import 'package:image/image.dart' as img;
 import 'package:path_provider/path_provider.dart';
 
-// Annotation Canvas Controller
+/// Annotation Canvas Controller
 class AnnotationController extends ChangeNotifier {
   File? imageFile;
+
+  /// `flutter_drawing_board` package controller
   final drawingController = DrawingController();
+
+  /// List of rectangle vertices offset
   List<List<Offset>> offsetLists = [];
+
+  /// List of annotation labels
   List<Label> labelList = [];
 
-  // Get list of all created bounding box annotation(s).
+  /// Get list of all created bounding box annotation(s).
   Future<List<AnnotationDetails>> getData() async {
     Future<ui.Image> convertImageToFlutterUi(img.Image image) async {
       if (image.format != img.Format.uint8 || image.numChannels != 4) {
@@ -46,7 +52,7 @@ class AnnotationController extends ChangeNotifier {
       return uiImage;
     }
 
-    // Convert a Dart Image Library Image to a Flutter UI Image.
+    /// Convert a Dart Image Library Image to a Flutter UI Image.
     Future<File> convertImagetoFile(ui.Image uiImage, int i) async {
       final byteData = await uiImage.toByteData(format: ui.ImageByteFormat.png);
       final bytes = byteData!.buffer.asUint8List();
@@ -59,7 +65,7 @@ class AnnotationController extends ChangeNotifier {
       return file;
     }
 
-    // Convert a Flutter UI Image to a File.
+    /// Convert a Flutter UI Image to a File.
     Future<List<AnnotationDetails>> getAnnotationDetails() async {
       List<Map<String, dynamic>> jsonList = drawingController.getJsonList();
       for (int i = 0; i < jsonList.length; i++) {
@@ -121,7 +127,7 @@ class AnnotationController extends ChangeNotifier {
     return annotationList;
   }
 
-  // Remove all annotation(s) inside the canvas
+  /// Remove all annotation(s) inside the canvas
   void clear() {
     drawingController.clear();
     offsetLists.clear();

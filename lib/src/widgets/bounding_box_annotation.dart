@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_drawing_board/flutter_drawing_board.dart';
 import 'package:flutter_drawing_board/paint_contents.dart';
 
-// Bounding box annotation canvas
+/// Bounding Box Annotation Canvas Widget
 class BoundingBoxAnnotation extends StatefulWidget {
   final AnnotationController controller;
   final File imageFile;
@@ -20,11 +20,10 @@ class BoundingBoxAnnotation extends StatefulWidget {
 
 class _BoundingBoxAnnotationState extends State<BoundingBoxAnnotation> {
   DrawingController drawingController = DrawingController();
-
   List<List<Offset>> offsetLists = [];
   List<Label> labelList = [];
 
-  // Get rectangle vertices offset
+  /// Get rectangle vertices offset
   Future<List<Offset>> getAnnotationOffset() async {
     List<Map<String, dynamic>> jsonList = drawingController.getJsonList();
 
@@ -74,7 +73,6 @@ class _BoundingBoxAnnotationState extends State<BoundingBoxAnnotation> {
     ];
   }
 
-  // Initialize the controller
   @override
   void initState() {
     widget.controller.imageFile = widget.imageFile;
