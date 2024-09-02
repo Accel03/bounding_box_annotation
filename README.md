@@ -13,20 +13,6 @@ A widget to create bounding box annotation on an image.
 
 
 
-## Installation
-Add the package to the `pubspec.yaml`:
-```dart
-dependencies:
-  bounding_box_annotation: ^0.0.1
-```
-
-Import the package to your Dart code: 
-``` dart
-import 'package:bounding_box_annotation/bounding_box_annotation.dart'
-```
-
-
-
 ## Usage
 Create a `BoundingBoxAnnotation` widget, and pass the required parameters.
 ``` dart
