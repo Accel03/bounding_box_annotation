@@ -1,13 +1,17 @@
 A widget to create simple bounding box annotation on an image.
 
 ## Preview
-Image
+[<img src="assets/preview.png">](https://github.com/Accel03/bounding_box_annotation/blob/main/assets/preview.png)
+
+
 
 ## Features
 - Draw rectangles (bounding boxes) on an image.
 - Add custom text to label the annotation.
 - Get annotation details (e.g. Offset).
 - Crop image into multiple parts based on bounding boxes.
+
+
 
 ## Installation
 Add the package to the `pubspec.yaml`:
@@ -21,6 +25,8 @@ Import the package to your Dart code:
 import 'package:bounding_box_annotation/bounding_box_annotation.dart'
 ```
 
+
+
 ## Usage
 Create a `BoundingBoxAnnotation` widget, and pass the required parameters.
 ``` dart
@@ -32,19 +38,22 @@ BoundingBoxAnnotation(
 )
 ```
 
-Create a variable to store the annotation(s).
+
+Create a `List` variable to store the annotation(s).
 ``` dart
 List<AnnottaionDetails>> annotationList = [];
 ```
 
-Get annotation details using:
+
+Get annotation details:
 ``` dart
 final AnnotationController annotationController = AnnotationController();
 
 List<AnnottaionDetails>> annotationList = await annotationController.getData();
 ```
 
-Clear all annotation(s) using:
+
+Clear all annotation(s):
 ``` dart
 final AnnotationController annotationController = AnnotationController();
 
