@@ -1,4 +1,4 @@
-A widget to create simple bounding box annotation on an image.
+A widget to create bounding box annotation on an image.
 
 ## Preview
 [<img src="assets/preview.png">](https://github.com/Accel03/bounding_box_annotation/blob/main/assets/preview.png)
