@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:bounding_box_annotation/src/models/annotation_details.dart';
@@ -13,6 +14,7 @@ import 'package:path_provider/path_provider.dart';
 class AnnotationController extends ChangeNotifier {
   /// Base image file
   File? imageFile;
+  Uint8List? imageBytes;
 
   /// `flutter_drawing_board` controller
   final DrawingController drawingController = DrawingController();
@@ -54,7 +56,7 @@ class AnnotationController extends ChangeNotifier {
     }
 
     /// Convert a Dart Image Library Image to a Flutter UI Image.
-    Future<File> convertImagetoFile(ui.Image uiImage, int i) async {
+    Future<File> convertImagetoFile(ui.Image uiImage) async {
       final byteData = await uiImage.toByteData(format: ui.ImageByteFormat.png);
       final bytes = byteData!.buffer.asUint8List();
       final directory = await getTemporaryDirectory();
@@ -82,8 +84,7 @@ class AnnotationController extends ChangeNotifier {
           jsonList.map((e) => Drawing.fromJson(e)).toList();
       List<AnnotationDetails> annotationList = [];
 
-      final bytes = await imageFile!.readAsBytes();
-      final img.Image? decodedImage = img.decodeImage(bytes);
+      final img.Image? decodedImage = img.decodeImage(imageBytes!);
       final img.Image resizedImage =
           img.copyResize(decodedImage!, width: 400, height: 400);
 
@@ -108,7 +109,7 @@ class AnnotationController extends ChangeNotifier {
         ui.Image uiImage = await convertImageToFlutterUi(resizedCroppedImage);
         File imageFile =
             await Future.delayed(const Duration(milliseconds: 250), () async {
-          return convertImagetoFile(uiImage, i);
+          return convertImagetoFile(uiImage);
         });
 
         annotationList.add(AnnotationDetails(

@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:bounding_box_annotation/src/annotation_controller.dart';
 import 'package:bounding_box_annotation/src/models/label.dart';
@@ -10,9 +10,9 @@ import 'package:flutter_drawing_board/paint_contents.dart';
 /// Bounding Box Annotation Canvas Widget
 class BoundingBoxAnnotation extends StatefulWidget {
   final AnnotationController controller;
-  final File imageFile;
+  final Uint8List imageBytes;
   const BoundingBoxAnnotation(
-      {super.key, required this.controller, required this.imageFile});
+      {super.key, required this.controller, required this.imageBytes});
 
   @override
   State<BoundingBoxAnnotation> createState() => _BoundingBoxAnnotationState();
@@ -75,7 +75,7 @@ class _BoundingBoxAnnotationState extends State<BoundingBoxAnnotation> {
 
   @override
   void initState() {
-    widget.controller.imageFile = widget.imageFile;
+    widget.controller.imageBytes = widget.imageBytes;
     drawingController = widget.controller.drawingController;
     offsetLists = widget.controller.offsetLists;
     labelList = widget.controller.labelList;
@@ -100,7 +100,8 @@ class _BoundingBoxAnnotationState extends State<BoundingBoxAnnotation> {
                 background: SizedBox(
                   width: 400.0,
                   height: 400.0,
-                  child: Image.file(widget.imageFile),
+                  child: FittedBox(
+                      fit: BoxFit.fill, child: Image.memory(widget.imageBytes)),
                 ),
                 onPointerUp: (e) async {
                   List<Offset> offsetList = await getAnnotationOffset();
