@@ -9,3 +9,7 @@ Add dartdoc comments
 
 ## 0.0.4
 Update dependencies and example
+
+## 0.0.5
+Fix Web and WASM compatibility
+
