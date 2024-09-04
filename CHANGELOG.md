@@ -13,3 +13,6 @@ Update dependencies and example
 ## 0.0.5
 Fix Web and WASM compatibility
 
+## 0.0.6
+Update min SDK version
+
