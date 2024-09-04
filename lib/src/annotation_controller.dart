@@ -8,7 +8,6 @@ import 'package:bounding_box_annotation/src/models/label.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_drawing_board/flutter_drawing_board.dart';
 import 'package:image/image.dart' as img;
-import 'package:path_provider/path_provider.dart';
 
 /// Annotation Canvas Controller
 class AnnotationController extends ChangeNotifier {
@@ -47,7 +46,9 @@ class AnnotationController extends ChangeNotifier {
           pixelFormat: ui.PixelFormat.rgba8888);
 
       ui.Codec codec = await id.instantiateCodec(
-          targetHeight: image.height, targetWidth: image.width);
+        targetHeight: image.height,
+        targetWidth: image.width,
+      );
 
       ui.FrameInfo fi = await codec.getNextFrame();
       ui.Image uiImage = fi.image;
@@ -56,19 +57,13 @@ class AnnotationController extends ChangeNotifier {
     }
 
     /// Convert a Dart Image Library Image to a Flutter UI Image.
-    Future<File> convertImagetoFile(ui.Image uiImage) async {
+    Future<Uint8List> convertImagetoBytes(ui.Image uiImage) async {
       final byteData = await uiImage.toByteData(format: ui.ImageByteFormat.png);
       final bytes = byteData!.buffer.asUint8List();
-      final directory = await getTemporaryDirectory();
-      DateTime currentTime = DateTime.now();
-      String fileName =
-          "annotation_${currentTime.year}${currentTime.month}${currentTime.day}_${currentTime.hour}${currentTime.minute}${currentTime.second}${currentTime.millisecond}";
-      File file = await File("${directory.path}/$fileName.png").create();
-      await file.writeAsBytes(bytes);
-      return file;
+      return bytes;
     }
 
-    /// Convert a Flutter UI Image to a File.
+    /// Convert a Flutter UI Image to a Uint8List.
     Future<List<AnnotationDetails>> getAnnotationDetails() async {
       List<Map<String, dynamic>> jsonList = drawingController.getJsonList();
       for (int i = 0; i < jsonList.length; i++) {
@@ -98,27 +93,36 @@ class AnnotationController extends ChangeNotifier {
         Offset p4 =
             Offset(drawingList[i].startPoint.dx, drawingList[i].endPoint.dy);
 
-        final img.Image croppedImage = img.copyCrop(resizedImage,
-            x: (p1.dx).round(),
-            y: (p1.dy).round(),
-            width: ((p3.dx - p1.dx).abs()).round(),
-            height: ((p3.dy - p1.dy).abs()).round());
+        final img.Image croppedImage = img.copyCrop(
+          resizedImage,
+          x: (p1.dx).round(),
+          y: (p1.dy).round(),
+          width: ((p3.dx - p1.dx).abs()).round(),
+          height: ((p3.dy - p1.dy).abs()).round(),
+        );
 
-        final img.Image resizedCroppedImage = img.copyResize(croppedImage,
-            width: 400, height: 400, maintainAspect: true);
+        final img.Image resizedCroppedImage = img.copyResize(
+          croppedImage,
+          width: 400,
+          height: 400,
+          maintainAspect: true,
+        );
         ui.Image uiImage = await convertImageToFlutterUi(resizedCroppedImage);
-        File imageFile =
+        Uint8List image =
             await Future.delayed(const Duration(milliseconds: 250), () async {
-          return convertImagetoFile(uiImage);
+          return convertImagetoBytes(uiImage);
         });
 
-        annotationList.add(AnnotationDetails(
+        annotationList.add(
+          AnnotationDetails(
             p1: p1,
             p2: p2,
             p3: p3,
             p4: p4,
             label: drawingList[i].label,
-            imageFile: imageFile));
+            image: image,
+          ),
+        );
       }
 
       return annotationList;

@@ -1,50 +1,91 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+class StartPoint {
+  final double dx;
+  final double dy;
 
-part 'drawing.freezed.dart';
-part 'drawing.g.dart';
+  StartPoint({
+    required this.dx,
+    required this.dy,
+  });
 
-@freezed
-class StartPoint with _$StartPoint {
-  const factory StartPoint({required double dx, required double dy}) =
-      _StartPoint;
-
-  factory StartPoint.fromJson(Map<String, dynamic> json) =>
-      _$StartPointFromJson(json);
+  factory StartPoint.fromJson(Map<String, dynamic> json) {
+    return StartPoint(dx: json["dx"], dy: json["dy"]);
+  }
 }
 
-@freezed
-class EndPoint with _$EndPoint {
-  const factory EndPoint({required double dx, required double dy}) = _EndPoint;
+class EndPoint {
+  final double dx;
+  final double dy;
 
-  factory EndPoint.fromJson(Map<String, dynamic> json) =>
-      _$EndPointFromJson(json);
+  EndPoint({
+    required this.dx,
+    required this.dy,
+  });
+
+  factory EndPoint.fromJson(Map<String, dynamic> json) {
+    return EndPoint(dx: json["dx"], dy: json["dy"]);
+  }
 }
 
-@freezed
-class Paint with _$Paint {
-  const factory Paint(
-      {required int blendMode,
-      required int color,
-      required int filterQuality,
-      required bool invertColors,
-      required bool isAntiAlias,
-      required int strokeCap,
-      required int strokeJoin,
-      required double strokeWidth,
-      required int style}) = _Paint;
+class Paint {
+  final int blendMode;
+  final int color;
+  final int filterQuality;
+  final bool invertColors;
+  final bool isAntiAlias;
+  final int strokeCap;
+  final int strokeJoin;
+  final double strokeWidth;
+  final int style;
 
-  factory Paint.fromJson(Map<String, dynamic> json) => _$PaintFromJson(json);
+  Paint({
+    required this.blendMode,
+    required this.color,
+    required this.filterQuality,
+    required this.invertColors,
+    required this.isAntiAlias,
+    required this.strokeCap,
+    required this.strokeJoin,
+    required this.strokeWidth,
+    required this.style,
+  });
+
+  factory Paint.fromJson(Map<String, dynamic> json) {
+    return Paint(
+      blendMode: json['blendMode'],
+      color: json['color'],
+      filterQuality: json['filterQuality'],
+      invertColors: json['invertColors'],
+      isAntiAlias: json['isAntiAlias'],
+      strokeCap: json['strokeCap'],
+      strokeJoin: json['strokeJoin'],
+      strokeWidth: json['strokeWidth'],
+      style: json['style'],
+    );
+  }
 }
 
-@freezed
-class Drawing with _$Drawing {
-  const factory Drawing(
-      {required String type,
-      required StartPoint startPoint,
-      required EndPoint endPoint,
-      required Paint paint,
-      required String label}) = _Drawing;
+class Drawing {
+  final String type;
+  final StartPoint startPoint;
+  final EndPoint endPoint;
+  final Paint paint;
+  final String label;
 
-  factory Drawing.fromJson(Map<String, dynamic> json) =>
-      _$DrawingFromJson(json);
+  Drawing({
+    required this.type,
+    required this.startPoint,
+    required this.endPoint,
+    required this.paint,
+    required this.label,
+  });
+
+  factory Drawing.fromJson(Map<String, dynamic> json) {
+    return Drawing(
+      type: json["type"],
+      startPoint: StartPoint.fromJson(json["startPoint"]),
+      endPoint: EndPoint.fromJson(json["endPoint"]),
+      paint: Paint.fromJson(json["paint"]),
+      label: json["label"],
+    );
+  }
 }

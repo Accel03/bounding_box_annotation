@@ -4,8 +4,11 @@ import 'package:flutter/services.dart';
 class AnnotationLabelDialog extends StatefulWidget {
   final String header;
   final String text;
-  const AnnotationLabelDialog(
-      {super.key, required this.header, required this.text});
+  const AnnotationLabelDialog({
+    super.key,
+    required this.header,
+    required this.text,
+  });
 
   @override
   State<AnnotationLabelDialog> createState() => _AnnotationLabelDialogState();
@@ -38,25 +41,36 @@ class _AnnotationLabelDialogState extends State<AnnotationLabelDialog> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text("${widget.header} Label",
-                  style: const TextStyle(
-                      fontSize: 20.0, fontWeight: FontWeight.w600)),
+              Text(
+                "${widget.header} Label",
+                style: const TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
               const SizedBox(height: 20.0),
               TextFormField(
                 style: const TextStyle(fontSize: 16.0),
                 cursorColor: Theme.of(context).colorScheme.onPrimary,
                 decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    border: const OutlineInputBorder(),
-                    hintText: "Type something here",
-                    hintStyle: const TextStyle(
-                        color: Colors.grey, fontWeight: FontWeight.w400),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Theme.of(context).colorScheme.onPrimary)),
-                    contentPadding: const EdgeInsets.symmetric(
-                        vertical: 10.0, horizontal: 15.0)),
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: const OutlineInputBorder(),
+                  hintText: "Type something here",
+                  hintStyle: const TextStyle(
+                    color: Colors.grey,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(
+                    vertical: 10.0,
+                    horizontal: 15.0,
+                  ),
+                ),
                 inputFormatters: [LengthLimitingTextInputFormatter(15)],
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -67,33 +81,43 @@ class _AnnotationLabelDialogState extends State<AnnotationLabelDialog> {
                 controller: _controller,
               ),
               const SizedBox(height: 30.0),
-              Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                widget.header == "Edit"
-                    ? TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 5.0),
-                          child: Text(
-                            "Cancel",
-                            style: TextStyle(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  widget.header == "Edit"
+                      ? TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(
+                              vertical: 10.0,
+                              horizontal: 5.0,
+                            ),
+                            child: Text(
+                              "Cancel",
+                              style: TextStyle(
                                 color: Colors.grey,
-                                fontWeight: FontWeight.w600),
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
                           ),
-                        ))
-                    : const SizedBox.shrink(),
-                const SizedBox(width: 10.0),
-                ElevatedButton(
+                        )
+                      : const SizedBox.shrink(),
+                  const SizedBox(width: 10.0),
+                  ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         Navigator.of(context).pop(_controller.text);
                       }
                     },
-                    child: const Text("Confirm",
-                        style: TextStyle(fontWeight: FontWeight.w600))),
-              ])
+                    child: const Text(
+                      "Confirm",
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
