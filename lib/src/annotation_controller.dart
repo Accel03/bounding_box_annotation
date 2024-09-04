@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
@@ -11,8 +10,7 @@ import 'package:image/image.dart' as img;
 
 /// Annotation Canvas Controller
 class AnnotationController extends ChangeNotifier {
-  /// Base image file
-  File? imageFile;
+  /// Base image bytes
   Uint8List? imageBytes;
 
   /// `flutter_drawing_board` controller
