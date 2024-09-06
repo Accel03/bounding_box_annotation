@@ -84,26 +84,24 @@ class _AnnotationLabelDialogState extends State<AnnotationLabelDialog> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  widget.header == "Edit"
-                      ? TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: const Padding(
-                            padding: EdgeInsets.symmetric(
-                              vertical: 10.0,
-                              horizontal: 5.0,
-                            ),
-                            child: Text(
-                              "Cancel",
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                        )
-                      : const SizedBox.shrink(),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 10.0,
+                        horizontal: 5.0,
+                      ),
+                      child: Text(
+                        "Cancel",
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
                   const SizedBox(width: 10.0),
                   ElevatedButton(
                     onPressed: () {

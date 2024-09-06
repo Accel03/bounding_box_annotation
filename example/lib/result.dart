@@ -28,48 +28,53 @@ class _ResultState extends State<Result> {
           itemCount: widget.annotationList.length,
           itemBuilder: (context, index) {
             return Card(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  SizedBox(
-                    width: 200.0,
-                    height: 200.0,
-                    child: FittedBox(
-                      fit: BoxFit.fill,
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                        color: Colors.blue,
+                        width: 5.0,
+                      ),),
+                      width: 200.0,
+                      height: 200.0,
                       child: Image.memory(widget.annotationList[index].image),
                     ),
-                  ),
-                  const SizedBox(width: 20.0),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.annotationList[index].label,
-                        style: const TextStyle(
-                          color: Colors.blue,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
+                    const SizedBox(width: 20.0),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.annotationList[index].label,
+                          style: const TextStyle(
+                            color: Colors.blue,
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 10.0),
-                      Text(
-                        "P1 (${((widget.annotationList[index].p1.dx).round()).toString()}, ${((widget.annotationList[index].p1.dy).round()).toString()})",
-                      ),
-                      const SizedBox(height: 10.0),
-                      Text(
-                        "P2 (${((widget.annotationList[index].p2.dx).round()).toString()}, ${((widget.annotationList[index].p2.dy).round()).toString()})",
-                      ),
-                      const SizedBox(height: 10.0),
-                      Text(
-                        "P3 (${((widget.annotationList[index].p3.dx).round()).toString()}, ${((widget.annotationList[index].p3.dy).round()).toString()})",
-                      ),
-                      const SizedBox(height: 10.0),
-                      Text(
-                        "P4 (${((widget.annotationList[index].p4.dx).round()).toString()}, ${((widget.annotationList[index].p4.dy).round()).toString()})",
-                      ),
-                    ],
-                  ),
-                ],
+                        const SizedBox(height: 10.0),
+                        Text(
+                          "P1 (${((widget.annotationList[index].p1.dx).round()).toString()}, ${((widget.annotationList[index].p1.dy).round()).toString()})",
+                        ),
+                        const SizedBox(height: 10.0),
+                        Text(
+                          "P2 (${((widget.annotationList[index].p2.dx).round()).toString()}, ${((widget.annotationList[index].p2.dy).round()).toString()})",
+                        ),
+                        const SizedBox(height: 10.0),
+                        Text(
+                          "P3 (${((widget.annotationList[index].p3.dx).round()).toString()}, ${((widget.annotationList[index].p3.dy).round()).toString()})",
+                        ),
+                        const SizedBox(height: 10.0),
+                        Text(
+                          "P4 (${((widget.annotationList[index].p4.dx).round()).toString()}, ${((widget.annotationList[index].p4.dy).round()).toString()})",
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             );
           },

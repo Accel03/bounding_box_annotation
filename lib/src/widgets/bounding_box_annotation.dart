@@ -11,11 +11,14 @@ import 'package:flutter_drawing_board/paint_contents.dart';
 class BoundingBoxAnnotation extends StatefulWidget {
   final AnnotationController controller;
   final Uint8List imageBytes;
-  const BoundingBoxAnnotation({
-    super.key,
-    required this.controller,
-    required this.imageBytes,
-  });
+  final Color? color;
+  final double? strokeWidth;
+  const BoundingBoxAnnotation(
+      {super.key,
+      required this.controller,
+      required this.imageBytes,
+      this.color,
+      this.strokeWidth,});
 
   @override
   State<BoundingBoxAnnotation> createState() => _BoundingBoxAnnotationState();
@@ -25,6 +28,7 @@ class _BoundingBoxAnnotationState extends State<BoundingBoxAnnotation> {
   DrawingController drawingController = DrawingController();
   List<List<Offset>> offsetLists = [];
   List<Label> labelList = [];
+  List<PaintContent> history = [];
 
   /// Get rectangle vertices offset
   Future<List<Offset>> getAnnotationOffset() async {
@@ -90,10 +94,17 @@ class _BoundingBoxAnnotationState extends State<BoundingBoxAnnotation> {
     drawingController = widget.controller.drawingController;
     offsetLists = widget.controller.offsetLists;
     labelList = widget.controller.labelList;
+    history = drawingController.getHistory;
     widget.controller.addListener(() {
       setState(() {});
     });
     drawingController.setPaintContent(Rectangle());
+    if (widget.color != null) {
+      drawingController.setStyle(color: widget.color);
+    }
+    if (widget.strokeWidth != null) {
+      drawingController.setStyle(strokeWidth: widget.strokeWidth);
+    }
     super.initState();
   }
 
@@ -138,7 +149,12 @@ class _BoundingBoxAnnotationState extends State<BoundingBoxAnnotation> {
                               offsetLists.add(offsetList);
                               labelList.add(Label(
                                   text: value.toString(),
-                                  offset: offsetList[0]));
+                                  offset: offsetList[0],),);
+                            });
+                          } else {
+                            drawingController.undo();
+                            setState(() {
+                              history.removeLast();
                             });
                           }
                         });
@@ -170,7 +186,7 @@ class _BoundingBoxAnnotationState extends State<BoundingBoxAnnotation> {
                         });
                       },
                       child: Container(
-                        color: Colors.red,
+                        color: widget.color ?? Colors.red,
                         padding: const EdgeInsets.symmetric(
                           vertical: 5.0,
                           horizontal: 10.0,
@@ -185,7 +201,38 @@ class _BoundingBoxAnnotationState extends State<BoundingBoxAnnotation> {
                         ),
                       ),
                     ),
-                  )
+                  ),
+                  Positioned(
+                    left: offsetLists[i][1].dx - 20,
+                    top: offsetLists[i][1].dy - 20,
+                    child: InkWell(
+                      onTap: () async {
+                        setState(() {
+                          history.removeAt(i);
+                          labelList.removeAt(i);
+                          offsetLists.removeAt(i);
+                        });
+                        List<Map<String, dynamic>> jsonList =
+                            drawingController.getJsonList();
+                        drawingController.clear();
+                        for (int i = 0; i < jsonList.length; i++) {
+                          drawingController.addContents(
+                              <PaintContent>[Rectangle.fromJson(jsonList[i])],);
+                        }
+                      },
+                      child: Container(
+                          decoration: BoxDecoration(
+                              color: widget.color ?? Colors.red,
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(5.0)),),
+                          padding: const EdgeInsets.all(8.0),
+                          child: const Icon(
+                            Icons.delete_rounded,
+                            color: Colors.white,
+                            size: 18.0,
+                          ),),
+                    ),
+                  ),
                 ],
               ],
             ),

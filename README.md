@@ -7,7 +7,7 @@ A widget to create bounding box annotation on an image.
 
 ## Features
 - Draw rectangles (bounding boxes) on an image.
-- Add custom text to label the annotation.
+- Add / edit custom text to label the annotation.
 - Get annotation details (e.g. Offset).
 - Crop image into multiple parts based on bounding boxes.
 

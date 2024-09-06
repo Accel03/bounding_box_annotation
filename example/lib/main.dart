@@ -97,12 +97,14 @@ class _AnnotationState extends State<Annotation> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              color: Colors.blue,
-              padding: const EdgeInsets.all(20.0),
+              decoration: BoxDecoration(
+                  border: Border.all(
+                color: Colors.blue,
+                width: 10.0,
+              ),),
               child: BoundingBoxAnnotation(
-                controller: annotationController,
-                imageBytes: widget.imageBytes,
-              ),
+                  controller: annotationController,
+                  imageBytes: widget.imageBytes,),
             ),
             const SizedBox(height: 20.0),
             Row(
