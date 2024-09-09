@@ -17,4 +17,8 @@ Fix Web and WASM compatibility
 - Update min SDK version
 - Add cancel button on create
 - Add delete function
+- Add rectangle customization
+
+## 0.0.7
+- Update preview
 

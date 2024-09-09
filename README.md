@@ -1,7 +1,10 @@
 A widget to create bounding box annotation on an image.
 
 ## Preview
-[<img src="assets/preview.png">](https://github.com/Accel03/bounding_box_annotation/blob/main/assets/preview.png)
+[<img src="assets/preview.png">](https://github.com/Accel03/bounding_box_annotation/raw/main/assets/preview.png)
+
+Live Demo   :
+[Click Here](https://accel03.github.io/bounding_box_annotation_demo/)
 
 
 
@@ -22,6 +25,17 @@ final AnnotationController annotationController = AnnotationController();
 BoundingBoxAnnotation(
     controller: annotationController,
     imageFile: imageFile
+)
+```
+
+
+Customize annotation styles.
+``` dart
+BoundingBoxAnnotation(
+    controller: annotationController,
+    imageFile: imageFile
+    color: Colors.blue,
+    strokeWidth: 5.0,
 )
 ```
 
