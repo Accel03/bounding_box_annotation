@@ -35,10 +35,11 @@ class _ResultState extends State<Result> {
                   children: <Widget>[
                     Container(
                       decoration: BoxDecoration(
-                          border: Border.all(
-                        color: Colors.blue,
-                        width: 5.0,
-                      ),),
+                        border: Border.all(
+                          color: Colors.blue,
+                          width: 5.0,
+                        ),
+                      ),
                       width: 200.0,
                       height: 200.0,
                       child: Image.memory(widget.annotationList[index].image),

@@ -10,6 +10,7 @@ A widget to create bounding box annotation on an image.
 - Add / edit custom text to label the annotation.
 - Get annotation details (e.g. Offset).
 - Crop image into multiple parts based on bounding boxes.
+- Delete annotation.
 
 
 

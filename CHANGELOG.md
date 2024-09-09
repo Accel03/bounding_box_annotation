@@ -14,5 +14,7 @@ Update dependencies and example
 Fix Web and WASM compatibility
 
 ## 0.0.6
-Update min SDK version
+- Update min SDK version
+- Add cancel button on create
+- Add delete function
 

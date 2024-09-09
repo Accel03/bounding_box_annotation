@@ -13,12 +13,13 @@ class BoundingBoxAnnotation extends StatefulWidget {
   final Uint8List imageBytes;
   final Color? color;
   final double? strokeWidth;
-  const BoundingBoxAnnotation(
-      {super.key,
-      required this.controller,
-      required this.imageBytes,
-      this.color,
-      this.strokeWidth,});
+  const BoundingBoxAnnotation({
+    super.key,
+    required this.controller,
+    required this.imageBytes,
+    this.color,
+    this.strokeWidth,
+  });
 
   @override
   State<BoundingBoxAnnotation> createState() => _BoundingBoxAnnotationState();
@@ -147,9 +148,12 @@ class _BoundingBoxAnnotationState extends State<BoundingBoxAnnotation> {
                           if (value != null) {
                             setState(() {
                               offsetLists.add(offsetList);
-                              labelList.add(Label(
+                              labelList.add(
+                                Label(
                                   text: value.toString(),
-                                  offset: offsetList[0],),);
+                                  offset: offsetList[0],
+                                ),
+                              );
                             });
                           } else {
                             drawingController.undo();
@@ -166,71 +170,77 @@ class _BoundingBoxAnnotationState extends State<BoundingBoxAnnotation> {
                   Positioned(
                     left: labelList[i].offset.dx,
                     top: labelList[i].offset.dy,
-                    child: InkWell(
-                      onTap: () async {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AnnotationLabelDialog(
-                              header: "Edit",
-                              text: labelList[i].text,
-                            );
-                          },
-                        ).then((value) async {
-                          if (value != null) {
-                            setState(() {
-                              widget.controller.labelList[i].text =
-                                  value.toString();
-                            });
-                          }
-                        });
-                      },
-                      child: Container(
-                        color: widget.color ?? Colors.red,
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 5.0,
-                          horizontal: 10.0,
-                        ),
-                        child: Text(
-                          labelList[i].text,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w600,
+                    child: Container(
+                      color: widget.color ?? Colors.red,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          InkWell(
+                            onTap: () async {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AnnotationLabelDialog(
+                                    header: "Edit",
+                                    text: labelList[i].text,
+                                  );
+                                },
+                              ).then((value) async {
+                                if (value != null) {
+                                  setState(() {
+                                    widget.controller.labelList[i].text =
+                                        value.toString();
+                                  });
+                                }
+                              });
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 5.0,
+                                horizontal: 10.0,
+                              ),
+                              child: Text(
+                                labelList[i].text,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
+                          InkWell(
+                            onTap: () async {
+                              setState(() {
+                                history.removeAt(i);
+                                labelList.removeAt(i);
+                                offsetLists.removeAt(i);
+                              });
+                              List<Map<String, dynamic>> jsonList =
+                                  drawingController.getJsonList();
+                              drawingController.clear();
+                              for (int i = 0; i < jsonList.length; i++) {
+                                drawingController.addContents(
+                                  <PaintContent>[
+                                    Rectangle.fromJson(jsonList[i]),
+                                  ],
+                                );
+                              }
+                            },
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(
+                                vertical: 5.0,
+                                horizontal: 8.0,
+                              ),
+                              child: Icon(
+                                Icons.clear_rounded,
+                                color: Colors.white,
+                                size: 18.0,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ),
-                  Positioned(
-                    left: offsetLists[i][1].dx - 20,
-                    top: offsetLists[i][1].dy - 20,
-                    child: InkWell(
-                      onTap: () async {
-                        setState(() {
-                          history.removeAt(i);
-                          labelList.removeAt(i);
-                          offsetLists.removeAt(i);
-                        });
-                        List<Map<String, dynamic>> jsonList =
-                            drawingController.getJsonList();
-                        drawingController.clear();
-                        for (int i = 0; i < jsonList.length; i++) {
-                          drawingController.addContents(
-                              <PaintContent>[Rectangle.fromJson(jsonList[i])],);
-                        }
-                      },
-                      child: Container(
-                          decoration: BoxDecoration(
-                              color: widget.color ?? Colors.red,
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(5.0)),),
-                          padding: const EdgeInsets.all(8.0),
-                          child: const Icon(
-                            Icons.delete_rounded,
-                            color: Colors.white,
-                            size: 18.0,
-                          ),),
                     ),
                   ),
                 ],

@@ -12,13 +12,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.blue,
-        ),
-      ),
-      home: const Loading(),
+    return const MaterialApp(
+      home: Loading(),
     );
   }
 }
@@ -98,13 +93,15 @@ class _AnnotationState extends State<Annotation> {
           children: <Widget>[
             Container(
               decoration: BoxDecoration(
-                  border: Border.all(
-                color: Colors.blue,
-                width: 10.0,
-              ),),
+                border: Border.all(
+                  color: Colors.blue,
+                  width: 10.0,
+                ),
+              ),
               child: BoundingBoxAnnotation(
-                  controller: annotationController,
-                  imageBytes: widget.imageBytes,),
+                controller: annotationController,
+                imageBytes: widget.imageBytes,
+              ),
             ),
             const SizedBox(height: 20.0),
             Row(

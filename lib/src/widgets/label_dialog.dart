@@ -44,6 +44,7 @@ class _AnnotationLabelDialogState extends State<AnnotationLabelDialog> {
               Text(
                 "${widget.header} Label",
                 style: const TextStyle(
+                  color: Color(0xFF38424D),
                   fontSize: 20.0,
                   fontWeight: FontWeight.w600,
                 ),
@@ -51,22 +52,15 @@ class _AnnotationLabelDialogState extends State<AnnotationLabelDialog> {
               const SizedBox(height: 20.0),
               TextFormField(
                 style: const TextStyle(fontSize: 16.0),
-                cursorColor: Theme.of(context).colorScheme.onPrimary,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
-                  border: const OutlineInputBorder(),
+                  border: OutlineInputBorder(),
                   hintText: "Type something here",
-                  hintStyle: const TextStyle(
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w400,
+                  hintStyle: TextStyle(
+                    color: Color(0xFFA9A9A9),
                   ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.onPrimary,
-                    ),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
+                  contentPadding: EdgeInsets.symmetric(
                     vertical: 10.0,
                     horizontal: 15.0,
                   ),
@@ -96,7 +90,7 @@ class _AnnotationLabelDialogState extends State<AnnotationLabelDialog> {
                       child: Text(
                         "Cancel",
                         style: TextStyle(
-                          color: Colors.grey,
+                          color: Color(0xFF747E88),
                           fontWeight: FontWeight.w600,
                         ),
                       ),
