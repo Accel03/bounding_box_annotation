@@ -1,6 +1,6 @@
 name: bounding_box_annotation
 description: "A widget to create bounding box annotation on an image, able to draw rectangles and add custom text label"
-version: 0.0.6
+version: 0.0.7
 homepage: https://github.com/Accel03/bounding_box_annotation.git
 
 environment:
