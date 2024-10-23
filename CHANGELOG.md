@@ -28,3 +28,5 @@ Add function to create annotation manually
 ## 0.0.9
 Update live demo web
 
+## 0.1.0
+Update dart format
