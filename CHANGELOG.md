@@ -25,3 +25,6 @@ Update preview
 ## 0.0.8
 Add function to create annotation manually
 
+## 0.0.9
+Update live demo web
+
