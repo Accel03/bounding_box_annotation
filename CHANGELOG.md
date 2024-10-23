@@ -20,5 +20,8 @@ Fix Web and WASM compatibility
 - Add rectangle customization
 
 ## 0.0.7
-- Update preview
+Update preview
+
+## 0.0.8
+Add function to create annotation manually
 

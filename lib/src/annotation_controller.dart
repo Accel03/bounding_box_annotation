@@ -6,6 +6,7 @@ import 'package:bounding_box_annotation/src/models/drawing.dart';
 import 'package:bounding_box_annotation/src/models/label.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_drawing_board/flutter_drawing_board.dart';
+import 'package:flutter_drawing_board/paint_contents.dart';
 import 'package:image/image.dart' as img;
 
 /// Annotation Canvas Controller
@@ -131,6 +132,35 @@ class AnnotationController extends ChangeNotifier {
     List<AnnotationDetails> annotationList = await getAnnotationDetails();
 
     return annotationList;
+  }
+
+  /// Add annotation manually.
+  void addAnnotation(double x, double y, double width, double height, String text) {
+    Map<String, dynamic> annotationData = <String, dynamic>{
+      'type': 'Rectangle',
+      'startPoint': <String, dynamic>{'dx': x, 'dy': y},
+      'endPoint': <String, dynamic>{'dx': x + width, 'dy': y + height},
+      'paint': <String, dynamic>{
+        'blendMode': 3,
+        'color': 4294198070,
+        'filterQuality': 3,
+        'invertColors': false,
+        'isAntiAlias': false,
+        'strokeCap': 1,
+        'strokeJoin': 1,
+        'strokeWidth': 4.0,
+        'style': 1
+      }
+    };
+    drawingController.addContent(Rectangle.fromJson(annotationData));
+    labelList.add(Label(text: text, offset: Offset(x, y)));
+    offsetLists.add([
+      Offset(x, y),
+      Offset(x + width, y),
+      Offset(x + width, y + height),
+      Offset(x, y + height)
+    ]);
+    notifyListeners();
   }
 
   /// Remove all annotation(s) inside the canvas

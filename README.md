@@ -24,7 +24,7 @@ final AnnotationController annotationController = AnnotationController();
 
 BoundingBoxAnnotation(
     controller: annotationController,
-    imageFile: imageFile
+    imageBytes: imageBytes
 )
 ```
 
@@ -33,7 +33,7 @@ Customize annotation styles.
 ``` dart
 BoundingBoxAnnotation(
     controller: annotationController,
-    imageFile: imageFile
+    imageBytes: imageBytes
     color: Colors.blue,
     strokeWidth: 5.0,
 )
@@ -51,6 +51,19 @@ Get annotation details:
 final AnnotationController annotationController = AnnotationController();
 
 List<AnnottaionDetails>> annotationList = await annotationController.getData();
+```
+
+
+Add annotation manually:
+``` dart
+final AnnotationController annotationController = AnnotationController();
+double x = 10.0
+double y = 20.0
+double width = 150.0
+double height = 150.0
+String label = "Test"
+
+annotationController.addAnnotation(x, y, width, height, label);
 ```
 
 

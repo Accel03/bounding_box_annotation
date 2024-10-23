@@ -1,5 +1,6 @@
 import 'package:bounding_box_annotation/bounding_box_annotation.dart';
 import 'package:bounding_box_annotation_example/result.dart';
+import 'package:bounding_box_annotation_example/widgets/add_annotation_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -68,6 +69,20 @@ class Annotation extends StatefulWidget {
 
 class _AnnotationState extends State<Annotation> {
   final AnnotationController annotationController = AnnotationController();
+
+  double? x;
+  double? y;
+  double? width;
+  double? height;
+  String? label;
+
+  void setValue(double x, double y, double width, double height, String label) {
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+    this.label = label;
+  }
 
   @override
   void initState() {
@@ -157,6 +172,38 @@ class _AnnotationState extends State<Annotation> {
                   },
                   child: const Text(
                     "Save",
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 10.0),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(120.0, 45.0),
+                    foregroundColor: Colors.white,
+                    backgroundColor: Colors.amber,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AddAnnotationDialog(
+                          setValue: setValue,
+                        );
+                      },
+                    ).then((value) async {
+                      if (value == true) {
+                        annotationController.addAnnotation(x!, y!, width!, height!, label!);
+                      }
+                    });
+                  },
+                  child: const Text(
+                    "Add",
                     style: TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.w600,
