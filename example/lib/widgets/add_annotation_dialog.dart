@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class AddAnnotationDialog extends StatefulWidget {
-  final Function (double x, double y, double width, double height, String label) setValue;
+  final Function(double x, double y, double width, double height, String label)
+      setValue;
   const AddAnnotationDialog({super.key, required this.setValue});
 
   @override
@@ -43,7 +44,7 @@ class _AddAnnotationDialogState extends State<AddAnnotationDialog> {
               const SizedBox(height: 20.0),
               Row(
                 mainAxisSize: MainAxisSize.min,
-                children: <Widget> [
+                children: <Widget>[
                   SizedBox(
                     width: 150.0,
                     child: TextFormField(
@@ -124,7 +125,7 @@ class _AddAnnotationDialogState extends State<AddAnnotationDialog> {
                 validator: (value) {
                   if (value!.isEmpty) {
                     return "Enter Annotation Width";
-                  } else if (value == "0"){
+                  } else if (value == "0") {
                     return "Value must be greater than 0";
                   }
                   return null;
@@ -154,7 +155,7 @@ class _AddAnnotationDialogState extends State<AddAnnotationDialog> {
                 validator: (value) {
                   if (value!.isEmpty) {
                     return "Enter Annotation Height";
-                  } else if (value == "0"){
+                  } else if (value == "0") {
                     return "Value must be greater than 0";
                   }
                   return null;
@@ -213,12 +214,11 @@ class _AddAnnotationDialogState extends State<AddAnnotationDialog> {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         widget.setValue(
-                          double.parse(xController.text),
-                          double.parse(xController.text),
-                          double.parse(widthController.text),
-                          double.parse(heightController.text),
-                          labelController.text
-                        );
+                            double.parse(xController.text),
+                            double.parse(xController.text),
+                            double.parse(widthController.text),
+                            double.parse(heightController.text),
+                            labelController.text);
                         Navigator.of(context).pop(true);
                       }
                     },

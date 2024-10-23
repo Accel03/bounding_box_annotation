@@ -198,7 +198,8 @@ class _AnnotationState extends State<Annotation> {
                       },
                     ).then((value) async {
                       if (value == true) {
-                        annotationController.addAnnotation(x!, y!, width!, height!, label!);
+                        annotationController.addAnnotation(
+                            x!, y!, width!, height!, label!);
                       }
                     });
                   },

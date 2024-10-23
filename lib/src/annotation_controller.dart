@@ -135,7 +135,8 @@ class AnnotationController extends ChangeNotifier {
   }
 
   /// Add annotation manually.
-  void addAnnotation(double x, double y, double width, double height, String text) {
+  void addAnnotation(
+      double x, double y, double width, double height, String text) {
     Map<String, dynamic> annotationData = <String, dynamic>{
       'type': 'Rectangle',
       'startPoint': <String, dynamic>{'dx': x, 'dy': y},
