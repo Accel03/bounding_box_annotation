@@ -30,6 +30,8 @@ class _BoundingBoxAnnotationState extends State<BoundingBoxAnnotation> {
   List<List<Offset>> offsetLists = [];
   List<Label> labelList = [];
   List<PaintContent> history = [];
+  double width = 0;
+  double height = 0;
 
   /// Get rectangle vertices offset
   Future<List<Offset>> getAnnotationOffset() async {
@@ -89,6 +91,14 @@ class _BoundingBoxAnnotationState extends State<BoundingBoxAnnotation> {
     ];
   }
 
+  void getImageSize() async {
+    final decodedImage = await decodeImageFromList(widget.imageBytes);
+    setState(() {
+      width = decodedImage.width.toDouble();
+      height = decodedImage.height.toDouble();
+    });
+  }
+
   @override
   void initState() {
     widget.controller.imageBytes = widget.imageBytes;
@@ -106,6 +116,7 @@ class _BoundingBoxAnnotationState extends State<BoundingBoxAnnotation> {
     if (widget.strokeWidth != null) {
       drawingController.setStyle(strokeWidth: widget.strokeWidth);
     }
+    getImageSize();
     super.initState();
   }
 
@@ -115,7 +126,7 @@ class _BoundingBoxAnnotationState extends State<BoundingBoxAnnotation> {
       mainAxisSize: MainAxisSize.min,
       children: [
         ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 400.0, maxHeight: 400.0),
+          constraints: BoxConstraints(maxWidth: width, maxHeight: height),
           child: Center(
             child: Stack(
               children: [
@@ -124,8 +135,8 @@ class _BoundingBoxAnnotationState extends State<BoundingBoxAnnotation> {
                   boardScaleEnabled: false,
                   controller: drawingController,
                   background: SizedBox(
-                    width: 400.0,
-                    height: 400.0,
+                    width: width,
+                    height: height,
                     child: FittedBox(
                       fit: BoxFit.fill,
                       child: Image.memory(widget.imageBytes),

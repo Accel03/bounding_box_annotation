@@ -81,8 +81,6 @@ class AnnotationController extends ChangeNotifier {
       List<AnnotationDetails> annotationList = [];
 
       final img.Image? decodedImage = img.decodeImage(imageBytes!);
-      final img.Image resizedImage =
-          img.copyResize(decodedImage!, width: 400, height: 400);
 
       for (int i = 0; i < drawingList.length; i++) {
         Offset p1 =
@@ -95,20 +93,14 @@ class AnnotationController extends ChangeNotifier {
             Offset(drawingList[i].startPoint.dx, drawingList[i].endPoint.dy);
 
         final img.Image croppedImage = img.copyCrop(
-          resizedImage,
+          decodedImage!,
           x: (p1.dx).round(),
           y: (p1.dy).round(),
           width: ((p3.dx - p1.dx).abs()).round(),
           height: ((p3.dy - p1.dy).abs()).round(),
         );
 
-        final img.Image resizedCroppedImage = img.copyResize(
-          croppedImage,
-          width: 400,
-          height: 400,
-          maintainAspect: true,
-        );
-        ui.Image uiImage = await convertImageToFlutterUi(resizedCroppedImage);
+        ui.Image uiImage = await convertImageToFlutterUi(croppedImage);
         Uint8List image =
             await Future.delayed(const Duration(milliseconds: 250), () async {
           return convertImagetoBytes(uiImage);

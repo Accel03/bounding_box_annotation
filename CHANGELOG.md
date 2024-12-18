@@ -30,3 +30,6 @@ Update live demo web
 
 ## 0.1.0
 Update dart format
+
+## 0.1.1
+Update dynamic image size
