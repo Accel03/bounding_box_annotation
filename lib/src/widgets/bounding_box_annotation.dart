@@ -11,12 +11,18 @@ import 'package:flutter_drawing_board/paint_contents.dart';
 class BoundingBoxAnnotation extends StatefulWidget {
   final AnnotationController controller;
   final Uint8List imageBytes;
+  final double? imageWidth;
+  final double? imageHeight;
+  final BoxFit? boxFit;
   final Color? color;
   final double? strokeWidth;
   const BoundingBoxAnnotation({
     super.key,
     required this.controller,
     required this.imageBytes,
+    this.imageWidth,
+    this.imageHeight,
+    this.boxFit,
     this.color,
     this.strokeWidth,
   });
@@ -27,11 +33,12 @@ class BoundingBoxAnnotation extends StatefulWidget {
 
 class _BoundingBoxAnnotationState extends State<BoundingBoxAnnotation> {
   DrawingController drawingController = DrawingController();
+  late double imageWidth;
+  late double imageHeight;
   List<List<Offset>> offsetLists = [];
   List<Label> labelList = [];
   List<PaintContent> history = [];
-  double width = 0;
-  double height = 0;
+  BoxFit? boxFit;
 
   /// Get rectangle vertices offset
   Future<List<Offset>> getAnnotationOffset() async {
@@ -93,10 +100,29 @@ class _BoundingBoxAnnotationState extends State<BoundingBoxAnnotation> {
 
   void getImageSize() async {
     final decodedImage = await decodeImageFromList(widget.imageBytes);
-    setState(() {
-      width = decodedImage.width.toDouble();
-      height = decodedImage.height.toDouble();
-    });
+    if (widget.imageWidth == null && widget.imageHeight == null) {
+      setState(() {
+        widget.controller.imageWidth = decodedImage.width.toDouble();
+        widget.controller.imageHeight = decodedImage.height.toDouble();
+      });
+    } else if (widget.imageWidth != null && widget.imageHeight == null) {
+      setState(() {
+        widget.controller.imageWidth = widget.imageWidth!;
+        widget.controller.imageHeight = decodedImage.height.toDouble();
+      });
+    } else if (widget.imageWidth == null && widget.imageHeight != null) {
+      setState(() {
+        widget.controller.imageWidth = decodedImage.width.toDouble();
+        widget.controller.imageHeight = widget.imageHeight!;
+      });
+    } else {
+      setState(() {
+        widget.controller.imageWidth = widget.imageWidth!;
+        widget.controller.imageHeight = widget.imageHeight!;
+      });
+    }
+    imageWidth = widget.controller.imageWidth;
+    imageHeight = widget.controller.imageHeight;
   }
 
   @override
@@ -117,6 +143,9 @@ class _BoundingBoxAnnotationState extends State<BoundingBoxAnnotation> {
       drawingController.setStyle(strokeWidth: widget.strokeWidth);
     }
     getImageSize();
+    if (widget.boxFit != null) {
+      boxFit = widget.boxFit!;
+    }
     super.initState();
   }
 
@@ -126,7 +155,8 @@ class _BoundingBoxAnnotationState extends State<BoundingBoxAnnotation> {
       mainAxisSize: MainAxisSize.min,
       children: [
         ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: width, maxHeight: height),
+          constraints:
+              BoxConstraints(maxWidth: imageWidth, maxHeight: imageHeight),
           child: Center(
             child: Stack(
               children: [
@@ -135,10 +165,10 @@ class _BoundingBoxAnnotationState extends State<BoundingBoxAnnotation> {
                   boardScaleEnabled: false,
                   controller: drawingController,
                   background: SizedBox(
-                    width: width,
-                    height: height,
+                    width: imageWidth,
+                    height: imageHeight,
                     child: FittedBox(
-                      fit: BoxFit.fill,
+                      fit: boxFit != null ? boxFit! : BoxFit.fill,
                       child: Image.memory(widget.imageBytes),
                     ),
                   ),

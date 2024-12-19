@@ -17,6 +17,10 @@ class AnnotationController extends ChangeNotifier {
   /// `flutter_drawing_board` controller
   final DrawingController drawingController = DrawingController();
 
+  /// Image size
+  late double imageWidth;
+  late double imageHeight;
+
   /// List of rectangle vertices offset
   List<List<Offset>> offsetLists = [];
 
@@ -81,6 +85,8 @@ class AnnotationController extends ChangeNotifier {
       List<AnnotationDetails> annotationList = [];
 
       final img.Image? decodedImage = img.decodeImage(imageBytes!);
+      final img.Image resizedImage = img.copyResize(decodedImage!,
+          width: imageWidth.round(), height: imageHeight.round());
 
       for (int i = 0; i < drawingList.length; i++) {
         Offset p1 =
@@ -93,14 +99,21 @@ class AnnotationController extends ChangeNotifier {
             Offset(drawingList[i].startPoint.dx, drawingList[i].endPoint.dy);
 
         final img.Image croppedImage = img.copyCrop(
-          decodedImage!,
+          resizedImage,
           x: (p1.dx).round(),
           y: (p1.dy).round(),
           width: ((p3.dx - p1.dx).abs()).round(),
           height: ((p3.dy - p1.dy).abs()).round(),
         );
 
-        ui.Image uiImage = await convertImageToFlutterUi(croppedImage);
+        final img.Image resizedCroppedImage = img.copyResize(
+          croppedImage,
+          width: imageWidth.round(),
+          height: imageHeight.round(),
+          maintainAspect: true,
+        );
+
+        ui.Image uiImage = await convertImageToFlutterUi(resizedCroppedImage);
         Uint8List image =
             await Future.delayed(const Duration(milliseconds: 250), () async {
           return convertImagetoBytes(uiImage);

@@ -33,3 +33,6 @@ Update dart format
 
 ## 0.1.1
 Update dynamic image size
+
+## 0.1.2
+Add custom image and canvas size

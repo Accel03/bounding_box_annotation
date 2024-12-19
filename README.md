@@ -29,6 +29,18 @@ BoundingBoxAnnotation(
 ```
 
 
+Customize image and canvas size.
+``` dart
+BoundingBoxAnnotation(
+    controller: annotationController,
+    imageBytes: imageBytes
+    imageWidth: 400,
+    imageHeight 400,
+    boxFit: BoxFit.fill
+)
+```
+
+
 Customize annotation styles.
 ``` dart
 BoundingBoxAnnotation(
