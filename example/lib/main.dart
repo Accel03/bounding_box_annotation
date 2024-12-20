@@ -116,8 +116,8 @@ class _AnnotationState extends State<Annotation> {
               child: BoundingBoxAnnotation(
                 controller: annotationController,
                 imageBytes: widget.imageBytes,
-                imageWidth: 400,
-                imageHeight: 400,
+                imageWidth: 400.0,
+                imageHeight: 400.0,
               ),
             ),
             const SizedBox(height: 20.0),

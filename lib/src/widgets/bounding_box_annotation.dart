@@ -13,7 +13,6 @@ class BoundingBoxAnnotation extends StatefulWidget {
   final Uint8List imageBytes;
   final double? imageWidth;
   final double? imageHeight;
-  final BoxFit? boxFit;
   final Color? color;
   final double? strokeWidth;
   const BoundingBoxAnnotation({
@@ -22,7 +21,6 @@ class BoundingBoxAnnotation extends StatefulWidget {
     required this.imageBytes,
     this.imageWidth,
     this.imageHeight,
-    this.boxFit,
     this.color,
     this.strokeWidth,
   });
@@ -38,7 +36,6 @@ class _BoundingBoxAnnotationState extends State<BoundingBoxAnnotation> {
   List<List<Offset>> offsetLists = [];
   List<Label> labelList = [];
   List<PaintContent> history = [];
-  BoxFit? boxFit;
 
   /// Get rectangle vertices offset
   Future<List<Offset>> getAnnotationOffset() async {
@@ -143,9 +140,6 @@ class _BoundingBoxAnnotationState extends State<BoundingBoxAnnotation> {
       drawingController.setStyle(strokeWidth: widget.strokeWidth);
     }
     getImageSize();
-    if (widget.boxFit != null) {
-      boxFit = widget.boxFit!;
-    }
     super.initState();
   }
 
@@ -168,7 +162,7 @@ class _BoundingBoxAnnotationState extends State<BoundingBoxAnnotation> {
                     width: imageWidth,
                     height: imageHeight,
                     child: FittedBox(
-                      fit: boxFit != null ? boxFit! : BoxFit.fill,
+                      fit: BoxFit.fill,
                       child: Image.memory(widget.imageBytes),
                     ),
                   ),
